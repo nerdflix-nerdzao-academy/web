@@ -1,0 +1,80 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a href="#"><img src="assets/nerdflix.png" class="navbar-brand" height="75"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#conteudoNavbarSuportado" aria-controls="conteudoNavbarSuportado" aria-expanded="false" aria-label="Alterna navegação">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+    <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Series</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Filmes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Lançamentos</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar">
+            <button class="btn btn-danger my-2 my-sm-0" type="submit">Pesquisar</button>
+        </form>
+    </div>
+</nav>
+<ngb-carousel *ngIf="data.banners" [showNavigationArrows]="showNavigationArrows" [showNavigationIndicators]="showNavigationIndicators">
+    <ng-template ngbSlide *ngFor="let banner of data.banners; let i = index;">
+        <div class="picsum-img-wrapper">
+            <img [src]="banner.img" alt="Random slide">
+        </div>
+        <div class="carousel-caption mt-5">
+            <h3>{{ banner.name }}</h3>
+            <p>{{ banner.description }}</p>
+            <div>
+                <button type="button" class="btn btn-danger"> 
+              <i class="fa fa-play fa-1x" aria-hidden="true"> </i>    
+              Assistir
+              </button>
+                <button type="button" class="btn btn-dark mx-3">
+              <i class="fa fa-plus fa-1x" aria-hidden="true"> </i>    
+              Minha Lista
+              </button>
+            </div>
+        </div>
+    </ng-template>
+</ngb-carousel>
+<div class="container-cards" *ngFor="let item of data.catalog; let i = index;">
+    <h5 class="container-card-title">{{item.text}}</h5>
+    <div class="scrolling-wrapper">
+        <div class="card-item" *ngFor="let movie of item.movies" (click)="selected(i, movie)">
+            <img [src]="movie.movie.img">
+        </div>
+    </div>
+    <div *ngIf="hasShowMovie(i)" class="movie-selected" [ngClass]="{'active-movie': hasShowMovie(i)}" class="movie" id="content{{i}}">
+        <div class="content-movie">
+            <div class="row d-flex align-items-center ml-1">
+                <div class="col-6">
+                    <h2>{{showMovie.movie.movie.name}}</h2>
+                    <p>{{showMovie.movie.movie.description}}
+                    </p>
+                    <div>
+                        <button type="button" class="btn btn-danger"> 
+                    <i class="fa fa-play fa-1x" aria-hidden="true"> </i>    
+                    Assistir
+                    </button>
+                        <button type="button" class="btn btn-dark mx-sm-3">
+                    <i class="fa fa-plus fa-1x" aria-hidden="true"> </i>    
+                    Minha Lista
+                    </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <img [src]="showMovie.movie.movie.img" class="article-bg">
+    </div>
+</div>
+<ngx-spinner size="large" color="#fff" type="ball-8bits" [fullScreen]="true">
+    <p style="color: white"> Carregando... </p>
+</ngx-spinner>
